@@ -7,7 +7,7 @@ end
 
 group :acceptance do
   # Version Pinned to support Ruby 2.1.8
-  gem 'beaker', '~> 2.52.0'
+  gem 'beaker'
   gem 'beaker-rspec', '~> 5.6.0'
     
   # Bug (?) - should be included by beaker-rspec
