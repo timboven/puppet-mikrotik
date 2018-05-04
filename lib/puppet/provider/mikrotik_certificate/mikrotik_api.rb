@@ -12,7 +12,6 @@ Puppet::Type.type(:mikrotik_certificate).provide(:mikrotik_api, :parent => Puppe
   end
 
   def self.cert(data)
-    p data
     new(
       ensure: :present,
       name: data['name'],
