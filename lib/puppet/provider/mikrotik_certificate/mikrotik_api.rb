@@ -58,7 +58,7 @@ Puppet::Type.type(:mikrotik_certificate).provide(:mikrotik_api, :parent => Puppe
     c = self.class.transport.connection
     data = StringIO.new(data)
     path = filename
-    Net::SCP.upload!(c.host,c.user,data,path,password: c.pass)
+    Net::SCP.upload!(c.host,c.user,data,path,ssh: {password: c.pass})
   end
 
 end

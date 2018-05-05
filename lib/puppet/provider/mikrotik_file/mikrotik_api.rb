@@ -24,7 +24,7 @@ Puppet::Type.type(:mikrotik_file).provide(:mikrotik_api, :parent => Puppet::Prov
       c = self.class.transport.connection
       data = StringIO.new(resource['content'])
       path = resource['name']
-      Net::SCP.upload!(c.host,c.user,data,path,password: c.pass)
+      Net::SCP.upload!(c.host,c.user,data,path,ssh: {password: c.pass})
     else
       Puppet::Provider::Mikrotik_Api::remove("/file", {'numbers' => resource['name']})
     end
