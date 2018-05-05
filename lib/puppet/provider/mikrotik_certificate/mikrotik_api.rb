@@ -23,7 +23,7 @@ Puppet::Type.type(:mikrotik_certificate).provide(:mikrotik_api, :parent => Puppe
   def flush
     cert_filename = "#{resource[:name]}.crt"
     upload_data(resource[:certificate], cert_filename)
-    self.class.import('file-name': cert_filename)
+    self.class.import('file-name' => cert_filename)
 
     if !resource[:private_key].nil?
       key_filename = "#{resource[:name]}.key"
