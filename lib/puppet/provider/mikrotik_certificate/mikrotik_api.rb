@@ -59,7 +59,7 @@ Puppet::Type.type(:mikrotik_certificate).provide(:mikrotik_api, :parent => Puppe
     data = StringIO.new(data)
     path = filename
     Net::SCP.upload!(c.host,c.user,data,path,ssh: {password: c.pass})
-    sleep(1)
+    sleep(5)
   end
 
 end
