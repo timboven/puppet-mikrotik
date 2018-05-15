@@ -12,12 +12,23 @@ Puppet::Type.type(:mikrotik_certificate).provide(:mikrotik_api, :parent => Puppe
     certs.map {|data| cert(data) }
   end
 
+  CERTNAME_REGEX = /^(.*)\.crt_(\d)+$/
+
   def self.cert(data)
+    md = data['name'].match(CERTNAME_REGEX)
+    if md
+      rname = md.captures[0]
+      rnum  = md.captures[1]
+    else
+      rname = data['name']
+      rnum  = 0
+    end
     new(
       ensure: :present,
-      name: data['name'],
+      name: rname,
       fingerprint: data['fingerprint'],
-      has_private_key: data['private-key']
+      has_private_key: data['private-key'],
+      number: rnum,
     )
   end
 

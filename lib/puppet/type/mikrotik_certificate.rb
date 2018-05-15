@@ -41,5 +41,10 @@ Puppet::Type.newtype(:mikrotik_certificate) do
   newproperty(:has_private_key) do
     desc 'does this cert have an associated key?'
   end
+
+  newparam(:number) do
+    desc 'number assigned to each cert when multiple are in the same file'
+    defaultto(0) 
+  end
  
 end
