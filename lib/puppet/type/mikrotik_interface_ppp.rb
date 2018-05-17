@@ -5,7 +5,7 @@ Puppet::Type.newtype(:mikrotik_interface_ppp) do
     defaultto :present
     
     newvalue(:present) do
-      provider.create if is == :absent
+      provider.create if retrieve == :absent
     end
     
     newvalue(:absent) do
