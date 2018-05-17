@@ -58,7 +58,7 @@ Puppet::Type.type(:mikrotik_interface_ppp).provide(:mikrotik_api, :parent => Pup
     end
 
     auth_key = resource[:ppp_type] == 'ovpn_client' ? 'auth' : 'authentication'
-    params[auth_key] = resource[:authentication].join(',') if ! resource[:authentication].nil?
+    params[auth_key] = resource[:authentication] if ! resource[:authentication].nil?
 
     interface_type = resource[:ppp_type].to_s.tr('_','-')
 
