@@ -14,9 +14,9 @@ Puppet::Type.type(:mikrotik_user_sshkey).provide(:mikrotik_api, :parent => Puppe
 
   def self.sshKey(data)
     new(
-      :ensure => :present,
-      :name   => data['name'],
-      :key    => data['public-key-file']
+      :ensure     => :present,
+      :name       => data['name'],
+      :public_key => data['public_key']
     )
   end
 
@@ -33,7 +33,7 @@ Puppet::Type.type(:mikrotik_user_sshkey).provide(:mikrotik_api, :parent => Puppe
     Puppet.debug("Params: #{params.inspect} - Lookup: #{lookup.inspect}")
 
     c = self.class.transport.connection
-    data = StringIO.new(resource[':key'])
+    data = StringIO.new(resource[':public_key'])
     path = resource['name'] + "_ssh_key"
     Net::SCP.upload!(c.host,c.user,data,path,ssh: {password: c.pass})
 
