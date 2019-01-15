@@ -1,4 +1,5 @@
 require 'puppet/provider/mikrotik_api'
+require 'net/scp'
 
 Puppet::Type.type(:mikrotik_user_sshkey).provide(:mikrotik_api, :parent => Puppet::Provider::Mikrotik_Api) do
   confine :feature => :mtik
@@ -14,7 +15,8 @@ Puppet::Type.type(:mikrotik_user_sshkey).provide(:mikrotik_api, :parent => Puppe
   def self.sshKey(data)
     new(
       :ensure => :present,
-      :name   => data['name']
+      :name   => data['name'],
+      :key    => data['key']
     )
   end
 
@@ -23,13 +25,18 @@ Puppet::Type.type(:mikrotik_user_sshkey).provide(:mikrotik_api, :parent => Puppe
 
     params = {}
     params["user"] = resource[:name]
-    params["public-key-file"] = 'TODO'
+    params["public-key-file"] = resource[:name] + "_ssh_key"
 
     lookup = {}
-    lookup["name"] = resource[:name]
+    lookup["user"] = resource[:name]
 
     Puppet.debug("Params: #{params.inspect} - Lookup: #{lookup.inspect}")
 
-    # TODO - transfer file and import...
+    c = self.class.transport.connection
+    data = StringIO.new(resource[':key'])
+    path = resource['name'] + "_ssh_key"
+    Net::SCP.upload!(c.host,c.user,data,path,ssh: {password: c.pass})
+
+    result = Puppet::Provider::Mikrotik_Api::command("/user/ssh-keys/import", params)
   end  
 end
