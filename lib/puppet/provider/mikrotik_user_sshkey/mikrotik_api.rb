@@ -23,20 +23,25 @@ Puppet::Type.type(:mikrotik_user_sshkey).provide(:mikrotik_api, :parent => Puppe
   def flush
     Puppet.debug("Flushing User SSH Key #{resource[:name]}")
 
-    params = {}
-    params["user"] = resource[:name]
-    params["public-key-file"] = resource[:name] + "_ssh_key"
+    if resource[:ensure] == :present
+      params = {}
+      params["user"] = resource[:name]
+      params["public-key-file"] = resource[:name] + "_ssh_key"
 
-    lookup = {}
-    lookup["user"] = resource[:name]
+      lookup = {}
+      lookup["user"] = resource[:name]
 
-    Puppet.debug("Params: #{params.inspect} - Lookup: #{lookup.inspect}")
+      Puppet.debug("Params: #{params.inspect} - Lookup: #{lookup.inspect}")
 
-    c = self.class.transport.connection
-    data = StringIO.new(resource[:public_key])
-    path = resource['name'] + "_ssh_key"
-    Net::SCP.upload!(c.host,c.user,data,path,ssh: {password: c.pass})
+      c = self.class.transport.connection
+      data = StringIO.new(resource[:public_key])
+      path = resource['name'] + "_ssh_key"
+      Net::SCP.upload!(c.host,c.user,data,path,ssh: {password: c.pass})
 
-    result = Puppet::Provider::Mikrotik_Api::command("/user/ssh-keys/import", params)
+      result = Puppet::Provider::Mikrotik_Api::command("/user/ssh-keys/import", params)
+    else
+      # TODO Fix removing keys
+      # result = Puppet::Provider::Mikrotik_Api::command("/user/ssh-keys/import", params)
+    end
   end  
 end
