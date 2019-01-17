@@ -52,6 +52,10 @@ Puppet::Type.newtype(:mikrotik_user_sshkey) do
     desc 'The SSH public key (DSA/RSA)'
   end
 
+  newparam(:content) do
+    desc 'The SSH public key (DSA/RSA) Content'
+  end
+
   newproperty(:bits) do
     desc "Key length"
   end
