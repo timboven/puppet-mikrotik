@@ -53,6 +53,7 @@ Puppet::Type.newtype(:mikrotik_user_sshkey) do
 
   newproperty(:content) do
     desc 'The SSH public key (DSA/RSA) Content'
+    isnamevar
   end
 
 end
