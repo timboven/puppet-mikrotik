@@ -13,6 +13,8 @@ Puppet::Type.type(:mikrotik_user_sshkey).provide(:mikrotik_api, :parent => Puppe
   end
 
   def self.sshKey(data)
+    Puppet.debug("Creating User SSH Key #{data[:name]}")
+
     new(
       :ensure     => :present,
       :name       => data['user'],
@@ -22,16 +24,20 @@ Puppet::Type.type(:mikrotik_user_sshkey).provide(:mikrotik_api, :parent => Puppe
 
   def flush
     Puppet.debug("Flushing User SSH Key #{resource[:name]}")
+    Puppet.debug("Original values = " + @original_values.inspect )
 
-    if resource[:ensure] == :present
+    if resource[:ensure] == :present and @original_values.empty?
       params = {}
       params["user"] = resource[:name]
       params["public-key-file"] = resource[:name] + "_ssh_key"
 
       lookup = {}
       lookup["user"] = resource[:name]
+      lookup["public_key"] = resource[:public_key]
 
       Puppet.debug("Params: #{params.inspect} - Lookup: #{lookup.inspect}")
+
+      id = Puppet::Provider::Mikrotik_Api::lookup_id("/usr/ssh-keys/getall", lookup)
 
       c = self.class.transport.connection
       data = StringIO.new(resource[:content])
