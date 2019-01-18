@@ -17,6 +17,7 @@ Puppet::Type.type(:mikrotik_user_sshkey).provide(:mikrotik_api, :parent => Puppe
 
     new(
       :ensure     => :present,
+      :name	  => data['user'] + data['key-owner'],
       :user       => data['user'],
       :key_owner  => data['key-owner']
     )
