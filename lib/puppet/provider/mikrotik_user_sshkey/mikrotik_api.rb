@@ -13,7 +13,7 @@ Puppet::Type.type(:mikrotik_user_sshkey).provide(:mikrotik_api, :parent => Puppe
   end
 
   def self.sshKey(data)
-	  Puppet.debug("Creating User SSH Key " + data.inspect)
+    Puppet.debug("Creating User SSH Key " + data.inspect)
 
     new(
       :ensure     => :present,
