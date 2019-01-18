@@ -43,6 +43,10 @@ Puppet::Type.newtype(:mikrotik_user_sshkey) do
     end
   end
 
+  newparam(:name) do
+    desc 'Resource name'
+  end
+
   newproperty(:user) do
     desc 'The user that the public key belongs to'
   end
