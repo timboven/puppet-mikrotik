@@ -13,11 +13,11 @@ Puppet::Type.type(:mikrotik_user_sshkey).provide(:mikrotik_api, :parent => Puppe
   end
 
   def self.sshKey(data)
-    Puppet.debug("Creating User SSH Key #{data[:name]}")
+	  Puppet.debug("Creating User SSH Key " + data.inspect)
 
     new(
       :ensure     => :present,
-      :name       => data['user'],
+      :user       => data['user'],
       :public_key => data['public_key']
     )
   end
@@ -28,7 +28,7 @@ Puppet::Type.type(:mikrotik_user_sshkey).provide(:mikrotik_api, :parent => Puppe
 
     if resource[:ensure] == :present and @original_values.empty?
       params = {}
-      params["user"] = resource[:name]
+      params["user"] = resource[:user]
       params["public-key-file"] = resource[:name] + "_ssh_key"
 
       lookup = {}

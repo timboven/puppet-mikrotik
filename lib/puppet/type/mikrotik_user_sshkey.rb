@@ -48,8 +48,8 @@ Puppet::Type.newtype(:mikrotik_user_sshkey) do
     isnamevar
   end
 
-  newparam(:public_key) do
-    desc 'The SSH public key (DSA/RSA)'
+  newparam(:key_owner) do
+    desc 'The SSH public key (DSA/RSA) Owner'
   end
 
   newparam(:content) do
