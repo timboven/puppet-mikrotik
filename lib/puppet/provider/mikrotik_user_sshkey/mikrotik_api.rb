@@ -18,7 +18,7 @@ Puppet::Type.type(:mikrotik_user_sshkey).provide(:mikrotik_api, :parent => Puppe
     new(
       :ensure     => :present,
       :user       => data['user'],
-      :key_owner => data['key_owner']
+      :key_owner  => data['key-owner']
     )
   end
 
@@ -33,7 +33,7 @@ Puppet::Type.type(:mikrotik_user_sshkey).provide(:mikrotik_api, :parent => Puppe
 
       lookup = {}
       lookup["user"] = resource[:name]
-      lookup["key_owner"] = resource[:key_owner]
+      lookup["key-owner"] = resource[:key_owner]
 
       Puppet.debug("Params: #{params.inspect} - Lookup: #{lookup.inspect}")
 
